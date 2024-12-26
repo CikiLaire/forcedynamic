@@ -6,9 +6,11 @@ const TambahPage = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await fetch("/api/buku", {
         method: "POST",
@@ -23,6 +25,8 @@ const TambahPage = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -57,7 +61,7 @@ const TambahPage = () => {
         </div>
         <div className="mt-5 flex justify-center items-center">
           <button className="mt-5 bg-white text-slate-700 rounded-md p-2">
-            Tambah
+            {loading ? "Loading..." : "Tambah"}
           </button>
         </div>
       </form>
